@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -72,7 +73,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var numero = abs(n)
+    var nombredechiffre = 0
+    do {
+        nombredechiffre++
+        numero /= 10
+    } while (numero != 0)
+    return nombredechiffre
+}
 
 /**
  * Простая (2 балла)
@@ -80,14 +89,25 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var (x, y) = listOf(0, 1)
+    var z: Int
+    repeat(n) {
+        z = y
+        y += x
+
+        x = z
+
+    }
+    return x
+}
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая (2 балла)
@@ -138,7 +158,16 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var numero = n
+    var x = 0
+    while (numero != 0) {
+        numero /= 10
+        x += numero % 10
+        x *= 10
+    }
+    return x
+}
 
 /**
  * Средняя (3 балла)
