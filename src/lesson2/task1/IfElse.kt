@@ -74,7 +74,7 @@ fun ageDescription(age: Int): String {
     return when {
         age % 100 in 11..14 -> "$age лет"
         dernierchiffres == 1 -> "$age год"
-       dernierchiffres in 2..4 -> "$age года"
+        dernierchiffres in 2..4 -> "$age года"
 
 
         else -> "$age лет"
@@ -118,7 +118,20 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int {
+    //инициализируем результат как 0, если угроз нет, то вернет 0
+    var result = 0
+    //если король под угрозой ладьи 1, то прибавляем один
+    if (kingX == rookX1 || kingY == rookY1) {
+        result += 1
+    }
+    //если король под угрозой ладьи 2, то прибавляем два, если он под угрозой и одной и второй то прибавится в начале 1 потом 2
+    if (kingX == rookX2 || kingY == rookY2) {
+        result += 2
+    }
+    return result
+}
+
 
 /**
  * Простая (2 балла)

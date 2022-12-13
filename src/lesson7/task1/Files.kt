@@ -245,7 +245,22 @@ fun top20Words(inputName: String): Map<String, Int> = TODO()
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
-    TODO()
+    val text = File(inputName).readText()//читаем текст
+    val replaceDictionary = mutableMapOf<Char, String>()//создаем словарь
+    //записываем в созданный словарь значения в нижнем регистре
+    dictionary.forEach { (t, u) -> replaceDictionary[t.lowercaseChar()] = u.lowercase() }
+
+    File(outputName).bufferedWriter().use { writer ->//открываем райтер
+        for (i in text) {//проходим по каждому символу в тексте
+            val letterForReplace =
+                replaceDictionary[i.lowercaseChar()]//создаем переменную которая может содержать символ для замены
+            when {
+                letterForReplace == null -> writer.write(i.toString())//если символ для замены отсутствует, то пропускаем
+                i.isUpperCase() -> writer.write(letterForReplace.replaceFirstChar { c -> c.uppercase() })//если символ есть и он в верхнем регистре, то заменяем его на символ из словаря преобразуя в верхний регистр
+                else -> writer.write(letterForReplace)//иначе просто заменяем
+            }
+        }
+    }
 }
 
 /**
