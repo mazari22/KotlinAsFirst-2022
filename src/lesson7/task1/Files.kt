@@ -2,7 +2,6 @@
 
 package lesson7.task1
 
-import com.sun.tools.javac.comp.Todo
 import java.io.File
 
 // Урок 7: работа с файлами
