@@ -121,9 +121,9 @@ fun centerFile(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     if (text.isEmpty()) writer.close()
     else {
-        val lineLength = text.maxOf { it.length } / 2
+        val lineLength = text.maxOf { it.length }
         for (line in text) {
-            val diff = lineLength - line.length / 2
+            val diff = (lineLength - line.length) / 2
             writer.write(" ".repeat(diff))
             writer.appendLine(line)
 
