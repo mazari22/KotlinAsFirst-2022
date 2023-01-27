@@ -2,6 +2,7 @@
 
 package lesson7.task1
 
+import com.sun.tools.javac.comp.Todo
 import java.io.File
 
 // Урок 7: работа с файлами
@@ -63,18 +64,11 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Подчёркивание в середине и/или в конце строк значения не имеет.
  */
 fun deleteMarked(inputName: String, outputName: String) {
-    //райтер для записи в файл
+    val text = File(inputName).readLines()
     val writer = File(outputName).bufferedWriter()
-    //циклом проходим по всем строкам в файле и записываем их в райтер
-    //если строка начинается с _ то пропускаем её иначе записываем
-    for (line in File(inputName).readLines())
-        File(inputName).forEachLine {
-            if (!it.startsWith("_")) {
-                writer.write(it)
-                writer.newLine()
-            }
-        }
-    //закрываем райтер
+    for (line in text) {
+        if (!line.startsWith("_")) writer.appendLine(line)
+    }
     writer.close()
 }
 
@@ -104,25 +98,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  * Исключения (жюри, брошюра, парашют) в рамках данного задания обрабатывать не нужно
  *
  */
-fun sibilants(inputName: String, outputName: String) {
-    val replaces = mapOf( //создаем ассоциативный список заменяемых букв
-        'Ы' to 'И', 'Я' to 'А', 'Ю' to 'У',
-        'ы' to 'и', 'я' to 'а', 'ю' to 'у'
-    )
-    var text = File(inputName).readText()//считываем текст
-    File(outputName).bufferedWriter().use {
-        for (chars in text.indices) {//проходим по каждому символу в строке
-            if (text[chars] in replaces && text[chars - 1] in "жчшщЖЧШЩ") {//если символ у нас есть в replaces и предыдущая буква жчшщ
-                text = text.replaceRange(//то мы заменяем на правильные буквы
-                    startIndex = chars,
-                    endIndex = chars + 1,
-                    "${replaces[text[chars]]}"
-                )
-            }
-        }
-        it.write(text)//записываем в файл
-    }
-}
+fun sibilants(inputName: String, outputName: String): Nothing = TODO()
 
 /**
  * Средняя (15 баллов)
@@ -142,19 +118,21 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    val lines = File(inputName).readLines() //читаем строки
-    File(outputName).bufferedWriter().use { // используем райтер
-        when (lines) {
-            emptyList<String>() -> it.write("")// если строка пустая, то пишем пустую строку
-            else -> { //иначе
-                val maxLength = lines.maxOf { it.trim().length }//мы определяем максимальную длину строки
-                lines.forEach { str -> //затем на каждую строчку
-                    it.write(" ".repeat((maxLength - str.trim().length) / 2))//мы пишем пробелы в том количестве которое нужно для того чтобы уровнять
-                    it.write(str.trim() + "\n")//затем пишем строчку и переносим райтер на новую строку
-                }
-            }
+    val text = File(inputName).readLines().map { it.trim() }
+    val writer = File(outputName).bufferedWriter()
+    if (text.isEmpty()) writer.close()
+    else {
+        val lineLength = text.maxOf { it.length } / 2
+        for (line in text) {
+            val diff = lineLength - line.length / 2
+            writer.write(" ".repeat(diff))
+            writer.appendLine(line)
+
         }
+        writer.close()
+
     }
+
 }
 
 /**
@@ -245,22 +223,7 @@ fun top20Words(inputName: String): Map<String, Int> = TODO()
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
-    val text = File(inputName).readText()//читаем текст
-    val replaceDictionary = mutableMapOf<Char, String>()//создаем словарь
-    //записываем в созданный словарь значения в нижнем регистре
-    dictionary.forEach { (t, u) -> replaceDictionary[t.lowercaseChar()] = u.lowercase() }
-
-    File(outputName).bufferedWriter().use { writer ->//открываем райтер
-        for (i in text) {//проходим по каждому символу в тексте
-            val letterForReplace =
-                replaceDictionary[i.lowercaseChar()]//создаем переменную которая может содержать символ для замены
-            when {
-                letterForReplace == null -> writer.write(i.toString())//если символ для замены отсутствует, то пропускаем
-                i.isUpperCase() -> writer.write(letterForReplace.replaceFirstChar { c -> c.uppercase() })//если символ есть и он в верхнем регистре, то заменяем его на символ из словаря преобразуя в верхний регистр
-                else -> writer.write(letterForReplace)//иначе просто заменяем
-            }
-        }
-    }
+    TODO()
 }
 
 /**
@@ -288,7 +251,16 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    val dictionary = File(inputName).readLines().filter { it.length == it.lowercase().toSet().size }
+    val writer = File(outputName).bufferedWriter()
+    if (dictionary.isEmpty()) {
+        writer.close()
+        return
+    }
+    val wordLength = dictionary.maxOf { it.length }
+    val filteredDictionary = dictionary.filter { it.length == wordLength }
+    writer.write(filteredDictionary.joinToString(", "))
+    writer.close()
 }
 
 /**

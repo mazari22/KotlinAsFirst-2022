@@ -27,14 +27,7 @@ class PhoneBook {
      * и false, если человек с таким именем уже был в телефонной книге
      * (во втором случае телефонная книга не должна меняться).
      */
-    fun addHuman(name: String): Boolean {
-        return if (contact.contains(name))
-            false
-        else {
-            contact[name] = mutableSetOf()
-            true
-        }
-    }
+    fun addHuman(name: String): Boolean = TODO()
 
     /**
      * Убрать человека.
@@ -42,17 +35,7 @@ class PhoneBook {
      * и false, если человек с таким именем отсутствовал в телефонной книге
      * (во втором случае телефонная книга не должна меняться).
      */
-    fun removeHuman(name: String): Boolean {
-        return if (!contact.containsKey(name))
-            false
-        else {
-            contact[name]!!.forEach { phoneNumber ->
-                phones.remove(phoneNumber)
-            }
-            contact.remove(name)
-            return true
-        }
-    }
+    fun removeHuman(name: String): Boolean = TODO()
 
     /**
      * Добавить номер телефона.
@@ -61,15 +44,7 @@ class PhoneBook {
      * либо у него уже был такой номер телефона,
      * либо такой номер телефона зарегистрирован за другим человеком.
      */
-    fun addPhone(name: String, phone: String): Boolean {
-        return if (!contact.containsKey(name) || phones.containsKey(phone))
-            false
-        else {
-            contact[name]!!.add(phone)
-            phones[phone] = name
-            return true
-        }
-    }
+    fun addPhone(name: String, phone: String): Boolean = TODO()
 
     /**
      * Убрать номер телефона.
@@ -77,40 +52,26 @@ class PhoneBook {
      * и false, если человек с таким именем отсутствовал в телефонной книге
      * либо у него не было такого номера телефона.
      */
-    fun removePhone(name: String, phone: String): Boolean {
-        return if (!contact.containsKey(name) || !phones.containsKey(phone))
-            false
-        else {
-            contact[name]!!.remove(phone)
-            phones.remove(phone)
-            return true
-        }
-    }
+    fun removePhone(name: String, phone: String): Boolean = TODO()
 
     /**
      * Вернуть все номера телефона заданного человека.
      * Если этого человека нет в книге, вернуть пустой список
      */
-    fun phones(name: String): Set<String> {
-        return if (!contact.containsKey(name))
-            emptySet()
-        else {
-            return contact[name]!!.toSet()
-        }
-    }
+    fun phones(name: String): Set<String> = TODO()
 
     /**
      * Вернуть имя человека по заданному номеру телефона.
      * Если такого номера нет в книге, вернуть null.
      */
-    fun humanByPhone(phone: String): String? = phones[phone]
+    fun humanByPhone(phone: String): String? = TODO()
 
     /**
      * Две телефонные книги равны, если в них хранится одинаковый набор людей,
      * и каждому человеку соответствует одинаковый набор телефонов.
      * Порядок людей / порядок телефонов в книге не должен иметь значения.
      */
-    override fun equals(other: Any?): Boolean = other is PhoneBook && contact == other.contact
+    override fun equals(other: Any?): Boolean= TODO()
 
-    override fun hashCode(): Int = contact.hashCode() + phones.hashCode()
+    override fun hashCode(): Int = TODO()
 }
